@@ -22,13 +22,6 @@
    name: openjdk-8-jdk
    update_cache: yes
 
-# Installation du packet autorisant les repo en HTTPS
-
-- name: Install https
-  apt:
-   name: apt-transport-https
-   update_cache: yes
-
 # Ajout de la clef apt
 
 - name: Add Elasticsearch apt key
@@ -42,4 +35,11 @@
   apt_repository:
    repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
    state: present
+
+# Installation du packet autorisant les repo en HTTPS
+
+- name: Install https
+  apt:
+   name: apt-transport-https
+   update_cache: yes
 ...

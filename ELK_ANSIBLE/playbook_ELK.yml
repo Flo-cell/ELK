@@ -3,7 +3,7 @@
 # Playbook pour installer ELK
 #
 
-- name: Ajouter un serveur host
+- name: Ajouter un serveur host via Input utilisateur
   hosts: localhost
   gather_facts: false
   vars_prompt:
@@ -12,7 +12,7 @@
       private: no
 
   tasks:
-    - name: Add host server
+    - name: Ajout du serveur host
       add_host:
         name: "{{ ELK_IP }}"
         group: added_hosts

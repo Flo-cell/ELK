@@ -10,22 +10,22 @@
    name: auditbeat
    update_cache: yes
 
-# Modification du fichier de conf afin de permettre l'acces depuis exterieur
+# Acces au setup de Kibana
 
-- name: Updating the config file to allow outside access
+- name: Configuration pour acces au setup de Kibana
   lineinfile:
    destfile: /etc/auditbeat/auditbeat.yml
-   regexp: 'hosts:'
-   line: '  hosts: ["localhost:9200"]'
+   regexp: '$5601'
+   line: '  hosts: 172.16.128.14:5601'
 
 
-# Modification du fichier de conf afin de permettre l'acces depuis exterieur
+# Acces a ElasticSearch
 
-- name: Updating the config file to allow outside access
+- name: Configuration de l'acces a ElasticSearch
   lineinfile:
    destfile: /etc/auditbeat/auditbeat.yml
-   regexp: 'host:'
-   line: 'host: ["localhost:5044"]'
+   regexp: '$9200'
+   line: 'host: ["172.16.128.14:5044"]'
 
 # Mise en place des dashboard
 

@@ -5,35 +5,35 @@
 
 # Installation de logstash
 
-- name: Install logstash
+- name: Installation de logstash
   apt:
    name: logstash
    update_cache: yes
 
 # Activation de logstash
 
-- name: enable service logstash
+- name: enable du service logstash
   systemd:
     name: logstash
     enabled: yes
 
 # Demarrage du service ElasticSearch
 
-- name: Starting logstash
+- name: Starting du service logstash
   service:
    name: logstash
    state: started
 
 # Creation du fichier index
 
-- name: Create file
+- name: Creation du fichier index pour auth log
   command: touch /etc/logstash/conf.d/01-log-auth.conf
   args:
     creates: /etc/logstash/conf.d/01-log-auth.conf
 
 # Saisie du fichier index pour auth.log
 
-- name: Ansible Insert multiple lines using blockinfile
+- name: Saisie des informations du fichier index
   blockinfile:
     dest: /etc/logstash/conf.d/01-log-auth.conf
     block: |
