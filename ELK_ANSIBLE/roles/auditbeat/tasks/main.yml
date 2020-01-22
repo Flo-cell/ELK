@@ -30,7 +30,7 @@
 # Mise en place des dashboard
 
 - name: Command run
-  shell: "auditbeat setup"
+  shell: auditbeat setup
 
 
 # Activation auditbeat
