@@ -1,0 +1,49 @@
+---
+#
+# Installation Auditbeat
+#
+
+# Installation Auditbeat
+
+- name: Install Auditbeat
+  apt:
+   name: auditbeat
+   update_cache: yes
+
+# Modification du fichier de conf afin de permettre l'acces depuis exterieur
+
+- name: Updating the config file to allow outside access
+  lineinfile:
+   destfile: /etc/auditbeat/auditbeat.yml
+   regexp: 'hosts:'
+   line: '  hosts: ["localhost:9200"]'
+
+
+# Modification du fichier de conf afin de permettre l'acces depuis exterieur
+
+- name: Updating the config file to allow outside access
+  lineinfile:
+   destfile: /etc/auditbeat/auditbeat.yml
+   regexp: 'host:'
+   line: 'host: ["localhost:5044"]'
+
+# Mise en place des dashboard
+
+- name: Command run
+  shell: "auditbeat setup"
+
+
+# Activation auditbeat
+
+- name: enable service auditbeat
+  systemd:
+    name: auditbeat
+    enabled: yes
+
+# Demarrage du service auditbeat
+
+- name: Starting auditbeat
+  service:
+   name: auditbeat
+   state: started
+...

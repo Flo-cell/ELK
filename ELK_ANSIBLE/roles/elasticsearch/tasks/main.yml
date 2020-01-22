@@ -1,0 +1,26 @@
+---
+#
+# Installation ElasticSearch (pour les nuls)
+#
+
+# Installation ElasticSearch
+
+- name: Install Elasticsearch
+  apt:
+   name: elasticsearch
+   update_cache: yes
+
+# Activation ElasticSearch
+
+- name: enable service ElasticSearch
+  systemd:
+    name: elasticsearch
+    enabled: yes
+
+# Demarrage du service ElasticSearch
+
+- name: Starting Elasticsearch
+  service:
+   name: elasticsearch
+   state: started
+...

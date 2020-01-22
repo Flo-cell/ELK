@@ -1,0 +1,37 @@
+---
+#
+# Playbook pour installer ELK
+#
+
+- name: Ajouter un serveur host
+  hosts: localhost
+  gather_facts: false
+  vars_prompt:
+    - name: "ELK_IP"
+      prompt: "Veuillez saisir IP du serveur ELK "
+      private: no
+
+  tasks:
+    - name: Add host server
+      add_host:
+        name: "{{ ELK_IP }}"
+        group: added_hosts
+      when: IdFile is undefined
+
+- hosts: added_hosts
+  vars_prompt:
+    - name: "USER"
+      prompt: "Veuillez saisir un utilisateur root "
+      private: no
+
+  remote_user: "{{ USER }}"
+  become: yes
+  become_user: root
+  gather_facts: false
+  roles:
+  - role: prerequis
+  - role: elasticsearch
+  - role: logstash
+  - role: kibana
+  - role: auditbeat
+...

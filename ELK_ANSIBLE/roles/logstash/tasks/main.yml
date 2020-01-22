@@ -1,0 +1,58 @@
+---
+#
+# Installation de logstash
+#
+
+# Installation de logstash
+
+- name: Install logstash
+  apt:
+   name: logstash
+   update_cache: yes
+
+# Activation de logstash
+
+- name: enable service logstash
+  systemd:
+    name: logstash
+    enabled: yes
+
+# Demarrage du service ElasticSearch
+
+- name: Starting logstash
+  service:
+   name: logstash
+   state: started
+
+# Creation du fichier index
+
+- name: Create file
+  command: touch /etc/logstash/conf.d/01-log-auth.conf
+  args:
+    creates: /etc/logstash/conf.d/01-log-auth.conf
+
+# Saisie du fichier index pour auth.log
+
+- name: Ansible Insert multiple lines using blockinfile
+  blockinfile:
+    dest: /etc/logstash/conf.d/01-log-auth.conf
+    block: |
+        input {
+                file { path => "/var/log/auth.log" }
+        }
+        filter {
+            grok {
+              match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+            }
+            date {
+              match => [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+            }
+        }
+        output {
+            elasticsearch {
+                 hosts => "localhost:9200"
+                 index => "logstash-local-dev-%{+YYYY.MM.dd}"
+            }
+        }
+
+...

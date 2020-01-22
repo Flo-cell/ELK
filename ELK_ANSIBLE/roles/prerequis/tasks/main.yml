@@ -1,0 +1,45 @@
+---
+#
+# Installation des prerequis
+#
+
+# Installation de Python
+
+- name: Check for Python
+  raw: test -e /usr/bin/python
+  changed_when: false
+  failed_when: false
+  register: check_python
+
+- name: Install Python
+  raw: apt -y update && apt install -y python-minimal
+  when: check_python.rc != 0
+
+# Installation de java 1.8
+
+- name: Install Java
+  apt:
+   name: openjdk-8-jdk
+   update_cache: yes
+
+# Installation du packet autorisant les repo en HTTPS
+
+- name: Install https
+  apt:
+   name: apt-transport-https
+   update_cache: yes
+
+# Ajout de la clef apt
+
+- name: Add Elasticsearch apt key
+  apt_key:
+   url: "https://artifacts.elastic.co/GPG-KEY-elasticsearch "
+   state: present
+
+# Ajout du depot ELK
+
+- name: Adding Elasticsearch repo
+  apt_repository:
+   repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+   state: present
+...

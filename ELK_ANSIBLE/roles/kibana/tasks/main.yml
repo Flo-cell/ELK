@@ -1,0 +1,34 @@
+---
+#
+# Installation de Kibana
+#
+
+# Installation de Kibana
+
+- name: Install Kibana
+  apt:
+   name: kibana
+   update_cache: yes
+
+# Modification du fichier de conf afin de permettre l'acces depuis exterieur
+
+- name: Updating the config file to allow outside access
+  lineinfile:
+   destfile: /etc/kibana/kibana.yml
+   regexp: '#server.host:'
+   line: "server.host: 172.16.128.14"
+
+# Activation de kibana
+
+- name: enable service kibana
+  systemd:
+    name: kibana
+    enabled: yes
+
+# Demarrage du service kibana
+
+- name: Starting logstash
+  service:
+   name: kibana
+   state: started
+...
