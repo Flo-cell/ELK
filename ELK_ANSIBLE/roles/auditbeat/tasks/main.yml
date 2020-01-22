@@ -18,13 +18,12 @@
    regexp: '#host: "localhost:5601"'
    line: '  hosts: 172.16.128.14:5601'
 
-
 # Acces a ElasticSearch
 
 - name: Configuration de l'acces a ElasticSearch
   lineinfile:
    destfile: /etc/auditbeat/auditbeat.yml
-   regexp: '  hosts: ["localhost:9200"]'
+   regexp: '^hosts: ["localhost:9200"]'
    line: '  host: ["172.16.128.14:5044"]'
 
 # Mise en place des dashboard
