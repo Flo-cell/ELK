@@ -16,7 +16,7 @@
   lineinfile:
    destfile: /etc/auditbeat/auditbeat.yml
    regexp: '#host: "localhost:5601"'
-   line: '  hosts: 172.16.128.14:5601'
+   line: 'hosts: 172.16.128.14:5601'
 
 # Mise en place des dashboard
 
